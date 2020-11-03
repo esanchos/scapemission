@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "618230206768",
+    "firebase_url": "https://facebook-push-test-123e0.firebaseio.com",
+    "project_id": "facebook-push-test-123e0",
+    "storage_bucket": "facebook-push-test-123e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618230206768:android:2c6f1465ac010f116e38f5",
+        "android_client_info": {
+          "package_name": "com.earaujo.flutterfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618230206768-nl1jbdpdalfgq102md5d3gkbiifarci4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF71FDN8e_DUE0KHOdB955dkT3W_3VRk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618230206768-nl1jbdpdalfgq102md5d3gkbiifarci4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618230206768:android:3b4e0fd8d516b8606e38f5",
+        "android_client_info": {
+          "package_name": "com.earaujo.scapemission"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618230206768-nl1jbdpdalfgq102md5d3gkbiifarci4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF71FDN8e_DUE0KHOdB955dkT3W_3VRk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618230206768-nl1jbdpdalfgq102md5d3gkbiifarci4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

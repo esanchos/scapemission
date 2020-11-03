@@ -1,10 +1,23 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
+import 'mainfb.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+//  if (_kShouldTestAsyncErrorOnInit) {
+//    await _testAsyncErrorOnInit();
+//  }
+  runApp(FirestoreApp());
 }
+
+//void main() {
+//  runApp(MyApp());
+//}
 
 class MyApp extends StatelessWidget {
   @override
@@ -12,11 +25,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(
-        title: 'Flutter Demo Home Page',
+        title: 'Enigma da Nick',
         cards: _getCards(),
       ),
     );
@@ -45,9 +58,21 @@ class MyApp extends StatelessWidget {
           ],
           answer: 3,
         ),
+        ScapeCardModel(
+          codeNumber: "020",
+          title: "m+m=6\nm+n=5",
+          questions: [
+            "n=5",
+            "n=6",
+            "n=7",
+            "n=2",
+          ],
+          answer: 3,
+        ),
       ];
 }
 
+// ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   MyHomePage({
     Key key,
@@ -91,7 +116,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
-            widget._answerOk != null ? Text(widget._answerOk ? "Acertouuuu" : "Errrrrou") : Text(""),
+            widget._answerOk != null
+                ? Text(widget._answerOk ? "Acertouuuu" : "Errrrrou")
+                : Text(""),
           ],
         ),
       ),
@@ -101,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
             widget._answerOk = null;
             if (widget.cards.length > 1) {
               int oldItem = widget.currentItem;
-              while(oldItem == widget.currentItem) {
+              while (oldItem == widget.currentItem) {
                 widget.currentItem =
                     widget._random.nextInt(widget.cards.length);
               }
@@ -109,7 +136,9 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         },
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: Icon(Icons.color_lens,
+          color: Colors.white,
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -127,6 +156,17 @@ class ScapeCardModel {
     this.questions,
     this.answer,
   });
+
+  ScapeCardModel.fromMap(QueryDocumentSnapshot map)
+      : codeNumber = map.data()['codeNumber'],
+        title = map['title'],
+        questions = List<String>.from(map['questions'].map((x) => x.toString())),//map['questions'] as List<String>,
+        answer = map['answer'];
+
+  ScapeCardModel.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot);
+
+  String toString() => "Record<$codeNumber:$title:$questions:$answer>";
 }
 
 class CardWidget extends StatelessWidget {
@@ -146,18 +186,23 @@ class CardWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BorderedBoxText(
               text: card.codeNumber,
-              textColor: Colors.blue,
-              backgroundColor: Colors.white,
-              borderColor: Colors.grey,
+              textColor: Colors.purpleAccent,
+              backgroundColor: Colors.cyanAccent,
+              borderColor: Colors.purple,
               fontSize: 20,
             ),
             SizedBox(width: 20),
             Text(
-              card.title,
-              style: Theme.of(context).textTheme.headline4,
+              card.title.replaceAll("\\n", "\n"),
+              style: TextStyle(
+                fontSize: 32,
+                color: Colors.greenAccent,
+              ),
             ),
           ],
         ),
@@ -168,8 +213,14 @@ class CardWidget extends StatelessWidget {
           Row(
             children: [
               FlatButton(
-                color: Colors.blueGrey,
-                child: Text(String.fromCharCode(i + 65)),
+                color: Colors.pinkAccent,
+                child: Text(
+                    String.fromCharCode(i + 65),
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.tealAccent,
+                  ),
+                ),
                 onPressed: () => onTap(i),
               ),
               SizedBox(
@@ -177,7 +228,10 @@ class CardWidget extends StatelessWidget {
               ),
               Text(
                 card.questions[i],
-                style: Theme.of(context).textTheme.headline4,
+                style: TextStyle(
+                  fontSize: 32,
+                  color: Colors.black,
+                ),
               ),
             ],
           )
@@ -186,6 +240,7 @@ class CardWidget extends StatelessWidget {
   }
 }
 
+// ignore: non_constant_identifier_names
 Widget BorderedBoxText({
   String text,
   Color textColor,
